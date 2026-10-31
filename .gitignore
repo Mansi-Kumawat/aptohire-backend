@@ -1,0 +1,6 @@
+.env*
+!.env.example
+.env.local
+node_modules/
+contract-dist/
+.DS_Store

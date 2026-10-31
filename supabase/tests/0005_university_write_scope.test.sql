@@ -1,0 +1,12 @@
+begin;
+select plan(8);
+select has_column('public','roster_entries','program','roster supports program metadata');
+select ok(has_column_privilege('authenticated','public.roster_entries','year','UPDATE'),'university members can update year');
+select ok(has_column_privilege('authenticated','public.roster_entries','program','UPDATE'),'university members can update program');
+select ok(not has_column_privilege('authenticated','public.roster_entries','email','UPDATE'),'university members cannot edit roster email');
+select ok(not has_column_privilege('authenticated','public.roster_entries','student_id_hash','UPDATE'),'university members cannot write ID hash');
+select ok(not (select attnotnull from pg_attribute where attrelid='public.placements'::regclass and attname='student_id' and not attisdropped),'placements permits unclaimed roster-only rows');
+select ok(has_column_privilege('authenticated','public.placements','roster_entry_id','INSERT'),'university placement insert can target roster entry');
+select ok(not has_column_privilege('authenticated','public.placements','student_id','INSERT'),'university cannot assign a student ID directly');
+select * from finish();
+rollback;

@@ -1,0 +1,26 @@
+-- Student-owned read paths and draft-only submission writes. No direct audit/score/run writes.
+grant select on public.skill_families, public.skills, public.project_templates to authenticated;
+grant select on public.submissions, public.audits, public.skill_scores, public.skill_score_history, public.project_assignments, public.agent_runs, public.tickets, public.notifications to authenticated;
+grant insert (student_id,template_id,title,status,claimed_skill_ids,video_path,video_url,video_seconds,video_bytes,originality_answers) on public.submissions to authenticated;
+grant update (title,claimed_skill_ids,video_path,video_url,video_seconds,video_bytes,originality_answers) on public.submissions to authenticated;
+grant delete on public.submissions to authenticated;
+grant insert (student_id,template_id,status,brief) on public.project_assignments to authenticated;
+grant update(status) on public.project_assignments to authenticated;
+grant insert (submission_id,student_id,reason) on public.tickets to authenticated;
+create policy student_skill_families_read on public.skill_families for select to authenticated using(true);
+create policy student_skills_read on public.skills for select to authenticated using(true);
+create policy student_templates_read on public.project_templates for select to authenticated using(active);
+create policy submission_owner_select on public.submissions for select to authenticated using(student_id=private.my_student_id() or private.is_admin());
+create policy submission_draft_insert on public.submissions for insert to authenticated with check(student_id=private.my_student_id() and status='draft');
+create policy submission_draft_update on public.submissions for update to authenticated using(student_id=private.my_student_id() and status='draft') with check(student_id=private.my_student_id() and status='draft');
+create policy submission_draft_delete on public.submissions for delete to authenticated using(student_id=private.my_student_id() and status='draft');
+create policy audit_owner_select on public.audits for select to authenticated using(private.is_admin() or exists(select 1 from public.submissions s where s.id=submission_id and s.student_id=private.my_student_id()));
+create policy score_owner_select on public.skill_scores for select to authenticated using(student_id=private.my_student_id() or private.is_admin());
+create policy history_owner_select on public.skill_score_history for select to authenticated using(student_id=private.my_student_id() or private.is_admin());
+create policy assignment_owner_select on public.project_assignments for select to authenticated using(student_id=private.my_student_id() or private.is_admin());
+create policy assignment_owner_insert on public.project_assignments for insert to authenticated with check(student_id=private.my_student_id());
+create policy assignment_in_progress on public.project_assignments for update to authenticated using(student_id=private.my_student_id()) with check(student_id=private.my_student_id() and status='in_progress');
+create policy run_owner_select on public.agent_runs for select to authenticated using(user_id=auth.uid() or private.is_admin());
+create policy ticket_owner_select on public.tickets for select to authenticated using(student_id=private.my_student_id() or private.is_admin());
+create policy ticket_owner_insert on public.tickets for insert to authenticated with check(student_id=private.my_student_id() and exists(select 1 from public.submissions s where s.id=submission_id and s.student_id=private.my_student_id() and s.status in ('scored','needs_review')));
+create policy notification_owner_select on public.notifications for select to authenticated using(user_id=auth.uid() or private.is_admin());

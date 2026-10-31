@@ -1,0 +1,10 @@
+begin;
+select plan(6);
+select has_function('public','replace_demand_signals',array['uuid','jsonb'],'atomic demand replacement RPC exists');
+select ok(has_function_privilege('service_role','public.replace_demand_signals(uuid,jsonb)','execute') and not has_function_privilege('authenticated','public.replace_demand_signals(uuid,jsonb)','execute'),'only service_role can replace anonymous demand signals');
+select ok(pg_get_functiondef('public.replace_demand_signals(uuid,jsonb)'::regprocedure) ilike '%on conflict%' and pg_get_functiondef('public.replace_demand_signals(uuid,jsonb)'::regprocedure) ilike '%delete from public.demand_signals%' and pg_get_functiondef('public.replace_demand_signals(uuid,jsonb)'::regprocedure) not ilike '%student_id%','RPC upserts aggregates and deletes stale rows without accepting student identities');
+select throws_ok($$select public.replace_demand_signals(null::uuid,'[]'::jsonb)$$,'22023',null,'RPC rejects a missing job id');
+select throws_ok($$select public.replace_demand_signals('00000000-0000-0000-0000-000000000001'::uuid,'{}'::jsonb)$$,'22023',null,'RPC rejects non-array batches before looking up a job');
+select throws_ok($$select public.replace_demand_signals('00000000-0000-0000-0000-000000000001'::uuid,(select jsonb_agg('null'::jsonb) from generate_series(1,501)))$$,'22023',null,'RPC rejects oversized batches before processing rows');
+select * from finish();
+rollback;

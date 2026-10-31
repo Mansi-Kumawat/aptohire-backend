@@ -1,0 +1,14 @@
+begin;
+select plan(10);
+select has_column('public','submissions','description','submission description is persisted');
+select has_column('public','submissions','live_url','submission live URL is persisted');
+select has_column('public','submissions','github_url','submission GitHub URL is persisted');
+select has_column('public','submissions','document_paths','owned document paths are persisted');
+select ok(has_column_privilege('authenticated','public.submissions','live_url','INSERT'),'students can set live URL on their own draft');
+select ok(has_column_privilege('authenticated','public.submissions','document_paths','UPDATE'),'students can edit document paths on their own draft');
+select ok(not has_column_privilege('authenticated','public.submissions','status','UPDATE'),'students cannot change submission lifecycle status');
+select has_function('private','validate_submission_reveal_fields',array[]::text[],'server-side project-link validator exists');
+select ok(exists(select 1 from pg_trigger where tgrelid='public.submissions'::regclass and tgname='validate_submission_reveal_fields' and not tgisinternal),'project-link validation runs before write');
+select ok(pg_get_functiondef('private.validate_submission_reveal_fields()'::regprocedure) ilike '%new.student_id%' and pg_get_functiondef('private.validate_submission_reveal_fields()'::regprocedure) ilike '%new.id%','document paths are bound to the owning student and submission');
+select * from finish();
+rollback;

@@ -1,0 +1,12 @@
+begin;
+select plan(6);
+select has_function('public','keep_alive',array[]::text[],'keep-alive RPC exists');
+select ok(has_function_privilege('service_role','public.keep_alive()','execute') and not has_function_privilege('authenticated','public.keep_alive()','execute'),'only service role can invoke keep-alive');
+select ok(not has_table_privilege('authenticated','private.maintenance_heartbeat','select'),'heartbeat history is private');
+set local role service_role;
+select ok(public.keep_alive() is not null,'service-only function touches the database and returns a timestamp');
+reset role;
+select ok(exists(select 1 from private.maintenance_heartbeat where task_name='keep-alive' and executed_at>=transaction_timestamp()),'heartbeat inserts a PII-free private log row');
+select ok(exists(select 1 from cron.job where jobname='aptohire-keep-alive-daily' and command ilike '%public.keep_alive()%'),'daily pg_cron job invokes the heartbeat');
+select * from finish();
+rollback;

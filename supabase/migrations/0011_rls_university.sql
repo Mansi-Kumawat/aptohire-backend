@@ -1,0 +1,11 @@
+grant select on public.universities, public.roster_entries to authenticated;
+grant insert (university_id,email,program_level,year,status) on public.roster_entries to authenticated;
+grant update (email,program_level,year,status) on public.roster_entries to authenticated;
+grant delete on public.roster_entries to authenticated;
+create policy university_public_approved on public.universities for select to authenticated using(status='approved' or id=any(private.my_university_ids()) or private.is_admin());
+create policy roster_university_read on public.roster_entries for select to authenticated using(university_id=any(private.my_university_ids()) or private.is_admin());
+create policy roster_university_insert on public.roster_entries for insert to authenticated with check(university_id=any(private.my_university_ids()));
+create policy roster_university_update on public.roster_entries for update to authenticated using(university_id=any(private.my_university_ids())) with check(university_id=any(private.my_university_ids()));
+create policy roster_university_delete on public.roster_entries for delete to authenticated using(university_id=any(private.my_university_ids()));
+grant select on public.placements to authenticated;
+create policy placement_university_read on public.placements for select to authenticated using(university_id=any(private.my_university_ids()) or private.is_admin());

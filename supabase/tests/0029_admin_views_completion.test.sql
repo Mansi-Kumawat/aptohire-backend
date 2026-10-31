@@ -1,0 +1,21 @@
+begin;
+select plan(11);
+insert into auth.users(id,aud,role,email,encrypted_password,raw_app_meta_data,raw_user_meta_data,created_at,updated_at)
+values('a0460000-0000-4000-8000-000000000001','authenticated','authenticated','admin-views@demo.aptohire.test',extensions.crypt('not-used',extensions.gen_salt('bf')),'{}'::jsonb,'{"full_name":"Synthetic Admin Views"}'::jsonb,now(),now());
+insert into public.profiles(id,role) values('a0460000-0000-4000-8000-000000000001','admin');
+select ok(not has_table_privilege('anon','public.admin_app_config_v','select'),'anonymous role has no privilege on admin config view');
+select ok(has_table_privilege('authenticated','public.admin_app_config_v','select'),'authenticated privilege reaches only the aal2-gated view');
+set local role authenticated;
+select set_config('request.jwt.claims','{"sub":"a0460000-0000-4000-8000-000000000001","role":"authenticated","aal":"aal1"}',true);
+select ok(not private.is_admin(),'aal1 admin is denied');
+select is((select count(*)::int from public.admin_users_v),0,'aal1 admin sees no admin users');
+select is((select count(*)::int from public.admin_app_config_v),0,'aal1 admin sees no configuration');
+select is((select count(*)::int from public.admin_agent_stats_v),0,'aal1 admin sees no agent aggregates');
+select set_config('request.jwt.claims','{"sub":"a0460000-0000-4000-8000-000000000001","role":"authenticated","aal":"aal2"}',true);
+select ok(private.is_admin(),'aal2 admin is authorized');
+select is((select count(*)::int from public.admin_users_v where user_id='a0460000-0000-4000-8000-000000000001'),1,'aal2 admin can read the admin user view');
+select is((select count(*)::int from public.admin_agent_stats_v),1,'agent stats has a zero-safe aggregate row for aal2 admin');
+select is((select count(*)::int from information_schema.columns where table_schema='public' and table_name='admin_app_config_v' and column_name in ('key','value','updated_by','updated_at')),4,'config view exposes value and last-editor metadata');
+select is((select count(*)::int from information_schema.columns where table_schema='public' and table_name='admin_agreement_v' and column_name in ('student_id','user_id','email','name','reviewed_by')),0,'agreement view exposes no identity columns');
+select * from finish();
+rollback;

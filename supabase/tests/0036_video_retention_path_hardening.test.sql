@@ -1,0 +1,11 @@
+begin;
+select plan(7);
+select has_function('public','expired_video_object_paths',array['integer'],'video retention listing RPC remains available');
+select ok(has_function_privilege('service_role','public.expired_video_object_paths(integer)','execute') and not has_function_privilege('authenticated','public.expired_video_object_paths(integer)','execute'),'only service_role can enumerate retention paths');
+select ok(pg_get_functiondef('public.expired_video_object_paths(integer)'::regprocedure) ilike '%demo[.]%' and pg_get_functiondef('public.expired_video_object_paths(integer)'::regprocedure) ilike '%90 days%','listing returns only aged demo video paths');
+select ok(pg_get_functiondef('public.complete_video_retention_cleanup(text[])'::regprocedure) ilike '%!~*%' and pg_get_functiondef('public.complete_video_retention_cleanup(text[])'::regprocedure) ilike '%demo[.]%','completion RPC rejects paths outside the exact owned demo-video format');
+select ok(pg_get_functiondef('public.expired_video_object_paths(integer)'::regprocedure) ilike '%p_limit>1000%' and pg_get_functiondef('public.expired_video_object_paths(integer)'::regprocedure) not ilike '%delete from storage.objects%','path listing is bounded and never deletes Storage metadata');
+select throws_ok($$select * from public.expired_video_object_paths(0)$$,'22023',null,'listing rejects an invalid bound');
+select throws_ok($$select public.complete_video_retention_cleanup(array['../private/file.mp4']::text[])$$,'22023',null,'completion RPC rejects a traversal path');
+select * from finish();
+rollback;

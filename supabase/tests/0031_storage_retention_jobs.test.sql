@@ -1,0 +1,14 @@
+begin;
+select plan(10);
+select has_function('public','expired_video_object_paths',array['integer'],'expired video listing RPC exists');
+select has_function('public','complete_video_retention_cleanup',array['text[]'],'video reference cleanup RPC exists');
+select ok(has_function_privilege('service_role','public.expired_video_object_paths(integer)','execute'),'service role can list expired video paths');
+select ok(not has_function_privilege('authenticated','public.expired_video_object_paths(integer)','execute'),'authenticated callers cannot enumerate expired storage paths');
+select ok(not has_function_privilege('authenticated','public.complete_video_retention_cleanup(text[])','execute'),'authenticated callers cannot clear video references');
+select ok(pg_get_functiondef('public.expired_video_object_paths(integer)'::regprocedure) ilike '%90 days%' and pg_get_functiondef('public.expired_video_object_paths(integer)'::regprocedure) ilike '%storage.objects%','retention selection is limited to old video objects');
+select ok(pg_get_functiondef('public.expired_video_object_paths(integer)'::regprocedure) not ilike '%delete from storage.objects%','migration never deletes storage metadata directly');
+select ok(exists(select 1 from cron.job where jobname='aptohire-keep-alive-daily') and exists(select 1 from cron.job where jobname='aptohire-raw-video-retention-daily'),'daily keep-alive and storage-retention jobs are registered');
+select ok(pg_get_functiondef('public.complete_video_retention_cleanup(text[])'::regprocedure) ilike '%video_path=null%' and pg_get_functiondef('public.complete_video_retention_cleanup(text[])'::regprocedure) ilike '%audit_log%','post-removal RPC clears references and records aggregate counts');
+select ok(pg_get_functiondef('private.invoke_retention_cleanup()'::regprocedure) ilike '%pg_extension%' and pg_get_functiondef('private.invoke_retention_cleanup()'::regprocedure) ilike '%http_post%' and pg_get_functiondef('private.invoke_retention_cleanup()'::regprocedure) ilike '%execute format%','retention dispatcher resolves pg_net in its installed schema');
+select * from finish();
+rollback;

@@ -1,0 +1,11 @@
+begin;
+select plan(7);
+select ok(not has_table_privilege('anon','public.profiles','select'),'anon cannot select profiles');
+select ok(not has_table_privilege('anon','public.students','select'),'anon cannot select students');
+select ok(not has_table_privilege('anon','public.submissions','select'),'anon cannot select submissions');
+select ok(not has_table_privilege('anon','public.applications','select'),'anon cannot select applications');
+select ok((select relrowsecurity from pg_class where oid='public.students'::regclass),'students has RLS enabled');
+select ok((select relrowsecurity from pg_class where oid='public.submissions'::regclass),'submissions has RLS enabled');
+select ok(not has_table_privilege('authenticated','public.audit_log','update'),'authenticated cannot update audit log');
+select * from finish();
+rollback;

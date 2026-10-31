@@ -1,0 +1,14 @@
+begin;
+select plan(10);
+select has_function('public','expired_data_export_object_paths',array['integer'],'data export listing RPC exists');
+select has_function('public','complete_data_export_retention_cleanup',array['integer'],'aggregate export cleanup audit RPC exists');
+select ok(has_function_privilege('service_role','public.expired_data_export_object_paths(integer)','execute'),'service role can list expired data export paths');
+select ok(not has_function_privilege('authenticated','public.expired_data_export_object_paths(integer)','execute'),'authenticated callers cannot enumerate export paths');
+select ok(not has_function_privilege('authenticated','public.complete_data_export_retention_cleanup(integer)','execute'),'authenticated callers cannot forge cleanup audit counts');
+select ok(pg_get_functiondef('public.expired_data_export_object_paths(integer)'::regprocedure) ilike '%data-exports%' and pg_get_functiondef('public.expired_data_export_object_paths(integer)'::regprocedure) ilike '%30 days%' and pg_get_functiondef('public.expired_data_export_object_paths(integer)'::regprocedure) ilike '%created_at%','listing is restricted to correctly shaped exports older than 30 days');
+select ok(pg_get_functiondef('public.expired_data_export_object_paths(integer)'::regprocedure) not ilike '%delete from storage.objects%','database function never deletes Storage metadata directly');
+select ok(pg_get_functiondef('public.complete_data_export_retention_cleanup(integer)'::regprocedure) ilike '%removed_count%' and pg_get_functiondef('public.complete_data_export_retention_cleanup(integer)'::regprocedure) not ilike '%object_path%' and pg_get_functiondef('public.complete_data_export_retention_cleanup(integer)'::regprocedure) not ilike '%student_id%','cleanup audit stores only aggregate counts without paths or identities');
+select throws_ok($$select * from public.expired_data_export_object_paths(1001)$$,'22023',null,'listing RPC rejects limits above one thousand');
+select throws_ok($$select public.complete_data_export_retention_cleanup(1001)$$,'22023',null,'cleanup audit rejects impossible deletion counts');
+select * from finish();
+rollback;

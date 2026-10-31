@@ -1,0 +1,39 @@
+services:
+  n8n:
+    image: n8nio/n8n:1.121.0
+    restart: unless-stopped
+    environment:
+      N8N_HOST: ${N8N_HOST:?set a public n8n hostname}
+      N8N_PROTOCOL: https
+      WEBHOOK_URL: ${N8N_WEBHOOK_URL:?set the externally reachable webhook base URL}
+      N8N_EDITOR_BASE_URL: ${N8N_EDITOR_BASE_URL:?set the editor URL}
+      N8N_ENCRYPTION_KEY: ${N8N_ENCRYPTION_KEY:?set a long random encryption key}
+      N8N_BASIC_AUTH_ACTIVE: "true"
+      N8N_BASIC_AUTH_USER: ${N8N_BASIC_AUTH_USER:?set a non-default admin user}
+      N8N_BASIC_AUTH_PASSWORD: ${N8N_BASIC_AUTH_PASSWORD:?set a strong admin password}
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_PERSONALIZATION_ENABLED: "false"
+      N8N_PAYLOAD_SIZE_MAX: "1"
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
+      NODE_FUNCTION_ALLOW_BUILTIN: crypto
+      N8N_RUNNERS_ENABLED: "true"
+      N8N_WEBHOOK_SECRET: ${N8N_WEBHOOK_SECRET:?set the same webhook HMAC secret as Supabase}
+      N8N_CALLBACK_ALLOWED_HOSTS: ${N8N_CALLBACK_ALLOWED_HOSTS:?set exact comma-separated Supabase Edge Function hostnames; no wildcards}
+      CALLBACK_SECRET: ${CALLBACK_SECRET:?set the same callback HMAC secret as Supabase}
+      N8N_LLM_CHAT_COMPLETIONS_URL: ${N8N_LLM_CHAT_COMPLETIONS_URL:?set an OpenAI-compatible endpoint}
+      N8N_LLM_ALLOWED_HOSTS: ${N8N_LLM_ALLOWED_HOSTS:?set exact comma-separated provider hostnames; no wildcards}
+      N8N_LLM_API_KEY: ${N8N_LLM_API_KEY:?set the provider key in the n8n host environment}
+      N8N_LLM_MODEL: ${N8N_LLM_MODEL:?set an allowed model name}
+    ports:
+      - "127.0.0.1:5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /home/node/.cache
+
+volumes:
+  n8n_data:

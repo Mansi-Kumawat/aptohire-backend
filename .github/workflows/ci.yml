@@ -1,0 +1,78 @@
+name: Backend checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  local-supabase-and-deno:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Test destructive-reset guard and assertion sequencing
+        run: npm run test:seed-guard
+      - name: Start local Supabase
+        run: npm run db:start
+      - name: Reset local database and seed
+        env:
+          APP_ENV: local
+        run: npm run db:reset
+      - name: Run pgTAP suite
+        run: npm run db:test
+      - name: Assert demo fixtures
+        run: npm run db:assert-demo
+      - name: Check Edge Functions
+        run: npm run fn:check
+      - name: Run Deno tests including loopback Storage integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          set -a
+          source <(supabase status -o env)
+          set +a
+          case "$API_URL" in
+            http://127.0.0.1:*|http://localhost:*|http://\[::1\]:*) ;;
+            *) echo "Refusing non-loopback Supabase API URL in CI Storage test" >&2; exit 1 ;;
+          esac
+          if [[ "$(awk -F. '{print NF}' <<< "$SERVICE_ROLE_KEY")" -ne 3 ]]; then
+            echo "Local Supabase service-role key is not a compact JWT; refusing to run Storage integration" >&2
+            exit 1
+          fi
+          export APP_ENV=local
+          export SUPABASE_URL="$API_URL"
+          export SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY"
+          npm run fn:test
+      - name: Generate local database types
+        run: npm run types
+      - name: Export current contract inventory
+        run: npm run contract:export
+      - name: Test Markdown table parser and verify static RLS, SQL-view, and environment-template inventories
+        run: node --test scripts/markdown-table.test.mjs && npm run rls:coverage && npm run check:rls-register && npm run notifications:matrix && npm run check:notifications && npm run check:views && npm run test:env-example && npm run check:env-example && git diff --exit-code -- docs/RLS_POLICY_INVENTORY.md docs/RLS_COVERAGE_CANDIDATES.md docs/RLS_MATRIX.md docs/NOTIFICATION_MATRIX.md
+      - name: Check n8n workflow source boundary
+        run: npm run n8n:check
+      - name: Check SECURITY DEFINER search paths and PUBLIC revokes
+        run: npm run security:definers
+      - name: Check admin functions require JWT admin and AAL2
+        run: npm run security:admin-aal2 && npm run test:admin-aal2
+      - name: Check migration numbering and pgTAP plans
+        run: npm run test:plans
+      - name: Check TODO(decision) inventory
+        run: npm run todo:decisions
+      - name: Test and scan for committed secrets
+        run: npm run test:secret-scan && npm run secret:scan
+      - name: Stop local Supabase
+        if: always()
+        run: npm run db:stop

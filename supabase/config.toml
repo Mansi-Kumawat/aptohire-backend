@@ -1,0 +1,121 @@
+project_id = "aptohire-backend"
+
+[api]
+enabled = true
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+enable_graphql = false
+
+[db]
+major_version = 15
+
+[auth]
+enable_signup = true
+enable_confirmations = true
+minimum_password_length = 10
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173/**", "http://localhost:5174/**", "http://localhost:5175/**", "http://localhost:5176/**", "http://localhost:5177/**"]
+
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true
+
+[storage]
+# Re-check hosted plan limits; Supabase free tier may change.
+file_size_limit = "50MiB"
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+
+[auth.email.template]
+
+[local_smtp]
+enabled = true
+port = 54324
+smtp_port = 54325
+pop3_port = 54326
+
+# Only functions with an existing entrypoint are configured here.
+[functions.public-verify]
+verify_jwt = false
+
+[functions.submit-application]
+verify_jwt = false
+
+# Callback uses single-use HMAC state; authenticated POST actions still verify JWT in the handler.
+[functions.profile-sync]
+verify_jwt = false
+
+[functions.submit-project]
+verify_jwt = true
+
+[functions.audit-submission]
+verify_jwt = true
+
+[functions.agent-callback]
+verify_jwt = false
+
+[functions.complete-signup]
+verify_jwt = true
+
+[functions.register-student]
+verify_jwt = true
+
+[functions.roster-import]
+verify_jwt = true
+
+[functions.confirm-affiliation]
+verify_jwt = true
+
+[functions.respond-access]
+verify_jwt = true
+
+[functions.withdraw-access]
+verify_jwt = true
+
+[functions.match-job]
+verify_jwt = true
+
+[functions.admin-update-config]
+verify_jwt = true
+
+[functions.admin-approve-org]
+verify_jwt = true
+
+[functions.admin-set-subscription]
+verify_jwt = true
+
+[functions.admin-approve-university]
+verify_jwt = true
+
+[functions.admin-review-audit]
+verify_jwt = true
+
+[functions.admin-decide-ticket]
+verify_jwt = true
+
+[functions.admin-retry-run]
+verify_jwt = true
+
+[functions.admin-view-student]
+verify_jwt = true
+
+# Daily retention worker authenticates with a dedicated Vault-backed secret, not a service-role token.
+[functions.retention-cleanup]
+verify_jwt = false
+
+[functions.export-my-data]
+verify_jwt = true
+
+[functions.delete-my-account]
+verify_jwt = true
+
+[functions.assign-project]
+verify_jwt = true
+
+[functions.extract-job-skills]
+verify_jwt = true
