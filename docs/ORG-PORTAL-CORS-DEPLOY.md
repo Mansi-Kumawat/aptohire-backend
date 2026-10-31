@@ -66,6 +66,10 @@ Then open Candidates and Pipeline. Their Edge Function requests should pass CORS
 
 The Organization signup can create the Supabase Auth user and then fail with HTTP 503 while `complete-signup` initializes `profiles.role`. The profile role-protection trigger originally checked `current_user`; inside a `SECURITY DEFINER` RPC that is the function owner, not the caller's verified Supabase service-role JWT. Thus the trigger can block the trusted role-initializer RPC. A second signup attempt then correctly reports that the Auth identity already exists.
 
+### Deploy-time Deno import map
+
+The repository-root `deno.json` is used by Deno's local `check` and `lint`, but the Supabase deploy bundler did not automatically use that root import map for function bundles. All 28 function blocks in `supabase/config.toml` now explicitly reference the shared `supabase/functions/import_map.json`. This maps the bare package aliases (`zod`, `@supabase/supabase-js`, and `@std/assert`) for Supabase CLI bundling. Run deploys from the updated backend checkout. If needed, the one-off equivalent is `npx supabase functions deploy request-access --import-map supabase/functions/import_map.json --project-ref <PROJECT_REF>`.
+
 Apply the new forward migrations `0103_repair_signup_role_initializer.sql` and `0105_fix_signup_role_trigger_guard.sql` to the dedicated hosted demo project before retrying. `0104_add_reviewed_pipeline_stage.sql` is also required for the Organization Pipeline's new internal Reviewed stage. These are forward-only migrations; do not delete the Auth user or profile, and do not seed a real production database. The updated Organization portal auto-retries `complete-signup` at sign-in for a verified user with a missing role, so the user should sign in with the password already chosen rather than attempting Create account again.
 
 After applying migrations, test with one fictional organization account in the dedicated demo project: create the account, verify email if confirmations are enabled, sign in, and confirm the organization portal opens. This hosted verification has not been performed by the assistant.

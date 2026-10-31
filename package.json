@@ -12,7 +12,7 @@
     "db:assert-demo": "node scripts/assert-demo-states.js",
     "fn:serve": "supabase functions serve --env-file .env.local",
     "fn:test": "deno test -A",
-    "fn:check": "deno check supabase/functions/**/*.ts && deno lint supabase/functions",
+    "fn:check": "node scripts/check-edge-import-maps.mjs && deno check supabase/functions/**/*.ts && deno lint supabase/functions",
     "types": "node -e \"require('fs').mkdirSync('contract-dist',{recursive:true})\" && supabase gen types typescript --local > contract-dist/database.types.ts",
     "contract:export": "node scripts/export-contract.mjs",
     "secret:scan": "node scripts/secret-scan.js",

@@ -41,81 +41,113 @@ pop3_port = 54326
 
 # Only functions with an existing entrypoint are configured here.
 [functions.public-verify]
+import_map = "./functions/import_map.json"
 verify_jwt = false
 
 [functions.submit-application]
+import_map = "./functions/import_map.json"
 verify_jwt = false
 
 # Callback uses single-use HMAC state; authenticated POST actions still verify JWT in the handler.
 [functions.profile-sync]
+import_map = "./functions/import_map.json"
 verify_jwt = false
 
 [functions.submit-project]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.audit-submission]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.agent-callback]
+import_map = "./functions/import_map.json"
 verify_jwt = false
 
 [functions.complete-signup]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.register-student]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.roster-import]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.confirm-affiliation]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.respond-access]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.withdraw-access]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.match-job]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.admin-update-config]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.admin-approve-org]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.admin-set-subscription]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.admin-approve-university]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.admin-review-audit]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.admin-decide-ticket]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.admin-retry-run]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.admin-view-student]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 # Daily retention worker authenticates with a dedicated Vault-backed secret, not a service-role token.
 [functions.retention-cleanup]
+import_map = "./functions/import_map.json"
 verify_jwt = false
 
 [functions.export-my-data]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.delete-my-account]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.assign-project]
+import_map = "./functions/import_map.json"
 verify_jwt = true
 
 [functions.extract-job-skills]
+import_map = "./functions/import_map.json"
 verify_jwt = true
+
+[functions.request-access]
+import_map = "./functions/import_map.json"
+
+[functions.reveal-student]
+import_map = "./functions/import_map.json"
