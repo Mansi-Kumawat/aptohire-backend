@@ -4,6 +4,9 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ignoredDirs = new Set([".git", "node_modules", "dist", "build", "coverage", ".next", ".venv"]);
+// Supabase CLI writes local runtime credentials under this gitignored directory.
+// Exclude only this exact generated path; keep scanning other .temp directories.
+const ignoredRelativeDirs = new Set(["supabase/.temp"]);
 const skippedFiles = new Set(["secret-scan.js"]);
 export const secretPatterns = [
   ["private key block", /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/],
@@ -27,8 +30,9 @@ export async function scanWorkspace(workspaceRoot = root) {
   const findings = [];
   async function walk(dir) {
     for (const entry of await readdir(dir, { withFileTypes: true })) {
-      if (entry.isDirectory() && ignoredDirs.has(entry.name)) continue;
       const fullPath = path.join(dir, entry.name);
+      const relativePath = path.relative(workspaceRoot, fullPath).split(path.sep).join("/");
+      if (entry.isDirectory() && (ignoredDirs.has(entry.name) || ignoredRelativeDirs.has(relativePath))) continue;
       if (entry.isDirectory()) {
         await walk(fullPath);
         continue;
@@ -40,7 +44,7 @@ export async function scanWorkspace(workspaceRoot = root) {
       const lines = content.split(/\r?\n/);
       for (let i = 0; i < lines.length; i++) {
         for (const label of findSecretLabels(lines[i])) {
-          findings.push(`${path.relative(workspaceRoot, fullPath)}:${i + 1}: possible ${label} (value redacted)`);
+          findings.push(`${relativePath}:${i + 1}: possible ${label} (value redacted)`);
         }
       }
     }

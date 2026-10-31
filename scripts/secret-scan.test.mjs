@@ -1,6 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { findSecretLabels } from "./secret-scan.js";
+import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import { findSecretLabels, scanWorkspace } from "./secret-scan.js";
 
 test("secret scanner recognizes configured LLM token families without leaking values", () => {
   const cases = [
@@ -27,6 +30,27 @@ test("secret scanner retains coverage for repository, cloud, and payment credent
     ["Stripe secret key", "sk_live_" + "D".repeat(24)],
   ];
   for (const [expected, token] of cases) assert.deepEqual(findSecretLabels(token), [expected]);
+});
+
+test("secret scanner ignores only Supabase CLI runtime secrets under supabase/.temp", async () => {
+  const root = await mkdtemp(path.join(os.tmpdir(), "aptohire-secret-scan-"));
+  const runtimeDir = path.join(root, "supabase", ".temp", "start-secrets");
+  const otherTempDir = path.join(root, "other", ".temp");
+  const syntheticSecret = "sb_secret_" + "X".repeat(24);
+  try {
+    await mkdir(runtimeDir, { recursive: true });
+    await mkdir(otherTempDir, { recursive: true });
+    await writeFile(path.join(runtimeDir, "docker.env"), `SUPABASE_SECRET=${syntheticSecret}\n`);
+    assert.deepEqual(await scanWorkspace(root), []);
+
+    await writeFile(path.join(otherTempDir, "config.env"), `VALUE=${syntheticSecret}\n`);
+    const findings = await scanWorkspace(root);
+    assert.equal(findings.length, 1);
+    assert.match(findings[0], /^other\/\.temp\/config\.env:1: possible Supabase secret key \(value redacted\)$/);
+    assert.equal(findings[0].includes(syntheticSecret), false);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });
 
 test("secret scanner ignores placeholders and ordinary model/config strings", () => {
