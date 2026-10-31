@@ -4,3 +4,4 @@
 node_modules/
 contract-dist/
 .DS_Store
+supabase/.temp/
