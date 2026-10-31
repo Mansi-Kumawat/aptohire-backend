@@ -1,5 +1,5 @@
-import { createClient } from "npm:@supabase/supabase-js@2.45.4";
-import { z } from "npm:zod@3.23.8";
+import { createClient } from "@supabase/supabase-js";
+import { z } from "zod";
 import { CompleteSignupInputSchema } from "../_shared/schemas/complete-signup.ts";
 import { createAdminClient } from "../_shared/admin.ts";
 import { corsHeaders, preflight } from "../_shared/cors.ts";

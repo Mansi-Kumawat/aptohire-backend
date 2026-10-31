@@ -1,5 +1,5 @@
-import { createClient } from "npm:@supabase/supabase-js@2.45.4";
-import { assertEquals, assertStringIncludes } from "jsr:@std/assert@1";
+import { createClient } from "@supabase/supabase-js";
+import { assertEquals, assertStringIncludes } from "@std/assert";
 import {
   createDataExportSignedUrl,
   DATA_EXPORT_SIGNED_URL_TTL_SECONDS,

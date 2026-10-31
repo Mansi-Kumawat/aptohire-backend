@@ -1,4 +1,4 @@
-import { assertEquals, assertFalse } from "jsr:@std/assert@1";
+import { assertEquals, assertFalse } from "@std/assert";
 import { AdminDecideTicketInputSchema, AdminDecideTicketOutputSchema } from "./admin-decide-ticket.ts";
 
 const ticketId = "af000000-0000-4000-8000-000000000001";

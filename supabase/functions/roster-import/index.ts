@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 import { parseStrictCsv } from "../_shared/csv.ts";
 import { createAdminClient } from "../_shared/admin.ts";
 import { HttpError } from "../_shared/errors.ts";

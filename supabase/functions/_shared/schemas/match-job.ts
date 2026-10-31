@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 
 export const MatchJobInputSchema = z.object({ job_id: z.string().uuid() }).strict();
 export const MatchJobOutputSchema = z.object({ status: z.enum(["ready", "running"]), candidate_count: z.number().int().nonnegative() }).strict();

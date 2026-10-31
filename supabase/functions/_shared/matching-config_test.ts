@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { parseMatchingThresholds } from "./matching-config.ts";
 
 Deno.test("matching threshold parser accepts the default controlled configuration", () => {

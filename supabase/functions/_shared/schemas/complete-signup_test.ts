@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { CompleteSignupInputSchema } from "./complete-signup.ts";
 
 Deno.test("complete-signup accepts only supported portal and reference", () => {

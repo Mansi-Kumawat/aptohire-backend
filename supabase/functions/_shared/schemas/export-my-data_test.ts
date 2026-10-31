@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { ExportMyDataInputSchema, ExportMyDataOutputSchema } from "./export-my-data.ts";
 
 Deno.test("export-my-data accepts only an empty input object", () => {

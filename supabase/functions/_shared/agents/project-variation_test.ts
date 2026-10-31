@@ -1,4 +1,4 @@
-import { assertEquals, assertNotEquals, assertRejects } from "jsr:@std/assert@1";
+import { assertEquals, assertNotEquals, assertRejects } from "@std/assert";
 import type { AssignmentTemplate } from "./project-assignment.ts";
 import { chooseProjectVariation } from "./project-variation.ts";
 

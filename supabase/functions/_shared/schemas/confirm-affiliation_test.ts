@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { ConfirmAffiliationInputSchema, ConfirmAffiliationOutputSchema } from "./confirm-affiliation.ts";
 
 Deno.test("confirm-affiliation accepts proposals and new unverified affiliations", () => {

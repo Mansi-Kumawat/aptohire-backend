@@ -1,4 +1,4 @@
-import { createClient } from "npm:@supabase/supabase-js@2.45.4";
+import { createClient } from "@supabase/supabase-js";
 import { corsHeaders, preflight } from "../_shared/cors.ts";
 import { hmacHex } from "../_shared/hash.ts";
 import { requestClientIp } from "../_shared/request-ip.ts";

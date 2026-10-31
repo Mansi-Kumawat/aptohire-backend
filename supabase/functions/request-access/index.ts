@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 import { createAdminClient } from "../_shared/admin.ts";
 import { RequestAccessInputSchema, RequestAccessOutputSchema } from "../_shared/schemas/request-access.ts";
 import { withHandler } from "../_shared/handler.ts";

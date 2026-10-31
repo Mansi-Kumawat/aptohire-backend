@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { constantTimeSecretEqual } from "./internal-secret.ts";
 
 Deno.test("internal secret comparison accepts only exact secrets", () => {

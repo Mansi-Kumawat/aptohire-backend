@@ -1,4 +1,4 @@
-import { assertEquals, assertStringIncludes } from "jsr:@std/assert@1";
+import { assertEquals, assertStringIncludes } from "@std/assert";
 import { buildAuditEvidenceBundle, redactStudentIdentity } from "./evidence-bundle.ts";
 
 const ownerId = "00000000-0000-4000-8000-000000000001";

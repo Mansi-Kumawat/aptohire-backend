@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 import { isSafeRosterCsvPath } from "../roster-utils.ts";
 
 const CsvRowSchema = z.object({

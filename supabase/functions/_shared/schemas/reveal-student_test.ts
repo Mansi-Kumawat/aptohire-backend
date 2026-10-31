@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { RevealStudentInputSchema, RevealStudentOutputSchema } from "./reveal-student.ts";
 
 Deno.test("reveal-student contract rejects unknown identity fields", () => {

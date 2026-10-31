@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { isPublicCredentialSkillEligible, publicCredentialDisplayName } from "./credential.ts";
 
 Deno.test("public credential exposes only verified, shareable skills outside human review", () => {

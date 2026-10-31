@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 import { authenticate, type AppRole, type AuthContext } from "./auth.ts";
 import { corsHeaders, preflight } from "./cors.ts";
 import { HttpError } from "./errors.ts";

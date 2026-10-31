@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { WithdrawAccessInputSchema, WithdrawAccessOutputSchema } from "./withdraw-access.ts";
 
 Deno.test("withdraw-access accepts only a request id and returns withdrawn", () => {

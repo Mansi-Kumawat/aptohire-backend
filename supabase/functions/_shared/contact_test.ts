@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { containsContactDetails } from "./contact.ts";
 
 Deno.test("contact detector rejects emails, URLs, handles and phone-like text", () => {

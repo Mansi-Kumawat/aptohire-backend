@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { dispatchN8nAuditJob, isLocalSyntheticN8nOptedIn, isSafeN8nCallbackBaseUrl, isSafeN8nWebhookUrl } from "./n8n-webhook.ts";
 
 Deno.test("n8n synthetic execution is local-only and requires explicit opt-in", () => {

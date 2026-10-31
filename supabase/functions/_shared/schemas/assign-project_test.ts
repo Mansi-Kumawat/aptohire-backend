@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { AssignProjectInputSchema, AssignProjectOutputSchema, ProjectBriefSchema } from "./assign-project.ts";
 
 Deno.test("assign-project accepts only the two documented target variants", () => {

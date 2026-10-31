@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 import { AuditOutputSchema } from "../agents/audit-schema.ts";
 
 export const AgentCallbackInputSchema = z.object({

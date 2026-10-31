@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { AgentCallbackOutputSchema } from "./agent-callback.ts";
 
 Deno.test("agent callback output is strict and reports completed run identifiers", () => {

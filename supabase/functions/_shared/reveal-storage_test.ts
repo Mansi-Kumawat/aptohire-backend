@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { createRevealSignedUrl, createSafeDocumentRevealFile, createSafeSubmissionVideoRevealUrl, isSafeSubmissionVideoPath, REVEAL_SIGNED_URL_TTL_SECONDS, safeDocumentDisplayName } from "./reveal-storage.ts";
 
 const student = "11111111-1111-4111-8111-111111111111";

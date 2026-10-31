@@ -1,5 +1,5 @@
-import { assertEquals, assertRejects } from "jsr:@std/assert@1";
-import type { SupabaseClient } from "npm:@supabase/supabase-js@2.45.4";
+import { assertEquals, assertRejects } from "@std/assert";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { writeAuditEvent } from "./audit.ts";
 import { loadAppConfig, configBoolean, configNumber, configString } from "./config.ts";
 import { HttpError } from "./errors.ts";

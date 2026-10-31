@@ -1,4 +1,4 @@
-import { createClient } from "npm:@supabase/supabase-js@2.45.4";
+import { createClient } from "@supabase/supabase-js";
 import { corsHeaders, preflight } from "../_shared/cors.ts";
 import { authenticate } from "../_shared/auth.ts";
 import { createAdminClient } from "../_shared/admin.ts";

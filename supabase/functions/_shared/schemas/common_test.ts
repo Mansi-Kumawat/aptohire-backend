@@ -1,4 +1,4 @@
-import { assert, assertEquals } from "jsr:@std/assert@1";
+import { assert, assertEquals } from "@std/assert";
 import { CredentialResponseSchema, EvidenceItemSchema, ProjectBriefSchema, ScopeSchema } from "./common.ts";
 
 Deno.test("scope and brief schemas enforce allowed fields", () => {

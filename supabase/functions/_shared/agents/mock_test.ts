@@ -1,4 +1,4 @@
-import { assertEquals, assertRejects, assertStringIncludes } from "jsr:@std/assert@1";
+import { assertEquals, assertRejects, assertStringIncludes } from "@std/assert";
 import { mockAudit } from "./mock.ts";
 
 Deno.test("mock audit is deterministic and identity or injection text cannot change scores", async () => {

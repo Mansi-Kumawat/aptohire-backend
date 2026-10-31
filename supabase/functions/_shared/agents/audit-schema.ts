@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 
 export const CriterionSchema = z.object({
   key: z.enum(["functionality", "quality", "ui_accessibility", "testing", "documentation", "problem_solving", "communication"]),

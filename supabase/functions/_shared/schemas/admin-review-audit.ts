@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 
 const NoteSchema = z.string().trim().min(1).max(500);
 const AdjustedScoresSchema = z.array(z.object({ skill_id: z.string().uuid(), score: z.number().min(0).max(100) }).strict())

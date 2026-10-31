@@ -1,4 +1,4 @@
-import { createClient, type SupabaseClient, type User } from "npm:@supabase/supabase-js@2.45.4";
+import { createClient, type SupabaseClient, type User } from "@supabase/supabase-js";
 import { HttpError } from "./errors.ts";
 
 export type AppRole = "student" | "university" | "organization" | "admin";

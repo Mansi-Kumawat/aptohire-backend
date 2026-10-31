@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 
 export const ExtractJobSkillsInputSchema = z.object({
   description: z.string().trim().min(20).max(8000),

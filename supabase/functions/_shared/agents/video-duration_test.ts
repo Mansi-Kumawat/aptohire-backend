@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { parseVideoDurationSeconds } from "./video-duration.ts";
 
 function concat(...parts: Uint8Array[]): Uint8Array {

@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { AdminViewStudentInputSchema, AdminViewStudentOutputSchema } from "./admin-view-student.ts";
 Deno.test("admin view student request is strict", () => {
   const id = "00000000-0000-4000-8000-000000000001";

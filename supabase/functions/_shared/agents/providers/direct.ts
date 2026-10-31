@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 
 export type ProviderName = "gemini" | "groq" | "openrouter";
 export type ModelKind = "audit" | "fast";

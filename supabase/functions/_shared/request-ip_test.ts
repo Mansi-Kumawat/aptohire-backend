@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { requestClientIp } from "./request-ip.ts";
 
 Deno.test("client IP prefers the Cloudflare gateway header over other forwarded values", () => {

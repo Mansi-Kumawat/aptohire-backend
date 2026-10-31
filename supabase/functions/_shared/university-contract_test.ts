@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { normalizeLifeStatus, normalizeProgramLevel } from "./university-contract.ts";
 
 Deno.test("university program labels normalize to the frozen UG/PG vocabulary", () => {

@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { DeleteMyAccountInputSchema, DeleteMyAccountOutputSchema } from "./delete-my-account.ts";
 
 Deno.test("delete-my-account requires password and exact confirmation", () => {

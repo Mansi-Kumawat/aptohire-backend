@@ -1,4 +1,4 @@
-import { assertEquals, assertNotEquals } from "jsr:@std/assert@1";
+import { assertEquals, assertNotEquals } from "@std/assert";
 import { blindAlias, cosineScore, parseVector } from "./matching.ts";
 
 Deno.test("blind aliases are deterministic, job-scoped, and pepper-dependent", async () => {

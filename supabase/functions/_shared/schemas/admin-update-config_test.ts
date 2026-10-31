@@ -1,4 +1,4 @@
-import { assertEquals, assertFalse } from "jsr:@std/assert@1";
+import { assertEquals, assertFalse } from "@std/assert";
 import { AdminUpdateConfigInputSchema, AdminUpdateConfigOutputSchema } from "./admin-update-config.ts";
 
 Deno.test("admin config schema accepts documented keys and bounded values", () => {

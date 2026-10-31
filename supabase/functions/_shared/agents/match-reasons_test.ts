@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { appendConstrainedMatchReasons, constrainMatchReasonOutput, matchReasonPromptInput, type MatchReasonCandidate } from "./match-reasons.ts";
 
 const candidates: MatchReasonCandidate[] = [

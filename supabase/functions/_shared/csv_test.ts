@@ -1,4 +1,4 @@
-import { assertEquals, assertThrows } from "jsr:@std/assert@1";
+import { assertEquals, assertThrows } from "@std/assert";
 import { parseStrictCsv } from "./csv.ts";
 
 Deno.test("strict CSV parser handles quoted delimiters, escaped quotes, and CRLF", () => {

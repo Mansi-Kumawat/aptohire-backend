@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { confirmedRemovedPaths, isOwnedVideoObjectPath, isSafeVideoObjectPath } from "./retention-path.ts";
 
 Deno.test("retention cleanup accepts only student-owned submission video paths", () => {

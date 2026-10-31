@@ -1,4 +1,4 @@
-import { assertEquals, assertRejects } from "jsr:@std/assert@1";
+import { assertEquals, assertRejects } from "@std/assert";
 import { boundedGitHubJson, normalizedGitHubRepositoryUrl } from "./github-profile.ts";
 
 Deno.test("GitHub JSON bodies are size-bounded and parsed strictly", async () => {

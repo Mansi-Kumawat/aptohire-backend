@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { isAgentModeConfigurable } from "./admin-config.ts";
 
 Deno.test("mock mode remains configurable in all environments", () => {

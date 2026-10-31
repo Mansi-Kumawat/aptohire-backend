@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 import { ProjectBriefSchema, type ProjectBrief } from "../schemas/assign-project.ts";
 import { generateValidatedDirectJson, type DirectJsonRequest, type ProviderName } from "./providers/direct.ts";
 import { scrubExcerpt } from "./postprocess-audit.ts";

@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 import { ScopeSchema } from "./common.ts";
 
 export const RespondAccessInputSchema = z.object({

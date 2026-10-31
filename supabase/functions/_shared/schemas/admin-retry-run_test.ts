@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { AdminRetryRunInputSchema, AdminRetryRunOutputSchema } from "./admin-retry-run.ts";
 
 Deno.test("admin retry accepts only a failed run identifier", () => {

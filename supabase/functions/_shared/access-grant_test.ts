@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { isAccessGrantActive } from "./access-grant.ts";
 
 const now = Date.parse("2026-10-26T10:00:00Z");

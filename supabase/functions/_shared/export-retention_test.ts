@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { isExpiredDataExport, isSafeDataExportObjectPath } from "./export-retention.ts";
 
 Deno.test("export retention accepts only UUID-owned export JSON paths", () => {

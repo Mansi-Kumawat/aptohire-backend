@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { hmacHex } from "../hash.ts";
 import { dispatchN8nAgentJson, isSafeN8nAgentWebhookUrl } from "./n8n-agent.ts";
 

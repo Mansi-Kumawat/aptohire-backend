@@ -1,4 +1,4 @@
-import { assertEquals, assertFalse } from "jsr:@std/assert@1";
+import { assertEquals, assertFalse } from "@std/assert";
 import { ProfileSyncInputSchema, ProfileSyncOutputSchema } from "./profile-sync.ts";
 
 Deno.test("profile-sync accepts only documented strict action payloads", () => {

@@ -1,4 +1,4 @@
-import { assertEquals, assertStringIncludes } from "jsr:@std/assert@1";
+import { assertEquals, assertStringIncludes } from "@std/assert";
 import { buildDirectAuditUserPrompt, AUDIT_PROMPT_VERSION, enforceTextOnlyAuditOutput, runDirectAudit } from "./audit-direct.ts";
 import { AuditOutputSchema } from "./audit-schema.ts";
 import type { AuditEvidenceBundle } from "./evidence-bundle.ts";

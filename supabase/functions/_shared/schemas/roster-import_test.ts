@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { RosterImportInputSchema, RosterImportOutputSchema, CsvRosterRowSchema } from "./roster-import.ts";
 import { isDuplicateRosterIdentity, isSafeRosterCsvPath, rosterStorageObjectSize } from "../roster-utils.ts";
 

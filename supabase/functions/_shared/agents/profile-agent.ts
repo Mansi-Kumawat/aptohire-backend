@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 import { generateValidatedDirectJson, type DirectJsonRequest, type ProviderName } from "./providers/direct.ts";
 import type { ProfileProposal } from "../schemas/profile-sync.ts";
 import { cleanProfileText } from "./profile-proposal.ts";

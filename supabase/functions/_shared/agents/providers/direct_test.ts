@@ -1,5 +1,5 @@
-import { assertEquals } from "jsr:@std/assert@1";
-import { z } from "npm:zod@3.23.8";
+import { assertEquals } from "@std/assert";
+import { z } from "zod";
 import { generateDirectJson, generateValidatedDirectJson, providerConfigFingerprint } from "./direct.ts";
 
 Deno.test("provider fingerprint invalidates model changes without containing API keys", () => {

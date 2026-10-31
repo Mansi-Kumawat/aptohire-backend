@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { RespondAccessInputSchema, RespondAccessOutputSchema } from "./respond-access.ts";
 
 Deno.test("respond-access accepts subset grants and declines without grant details", () => {

@@ -1,4 +1,4 @@
-import { assertEquals, assertNotEquals } from "jsr:@std/assert@1";
+import { assertEquals, assertNotEquals } from "@std/assert";
 import { buildTemplateBrief, chooseTemplate, nextProjectLevel } from "./project-assignment.ts";
 
 Deno.test("next level advances from baseline and caps at Advanced", () => {

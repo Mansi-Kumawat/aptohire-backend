@@ -1,4 +1,4 @@
-import { assertEquals, assertGreater, assertThrows } from "jsr:@std/assert@1";
+import { assertEquals, assertGreater, assertThrows } from "@std/assert";
 import { cosineScore } from "../matching.ts";
 import { mockEmbedding } from "./mock-embedding.ts";
 

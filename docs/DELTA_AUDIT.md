@@ -73,7 +73,7 @@ The user then ran `fn:check` and reported TS2339 union-narrowing errors in `assi
 
 The user reported the same TS2339 errors again. The handler has now been rewritten to use `targetSkillSlug()` and `targetRoleText()` helpers that extract values via runtime type checks, eliminating direct access to either union-specific property in the handler. The exact repeated old line/expression diagnostics suggest the user may be compiling an earlier extracted copy; the current workspace and newly rebuilt archive contain the helper-based version. Deno check is unavailable here, so this change remains unverified.
 
-The user then ran `fn:check` and reported Deno lint `no-import-prefix` for the two new assignment tests importing `jsr:@std/assert@1` inline. Both now import the already-mapped bare specifier `@std/assert` from `deno.json`. The lint fix has not been rerun locally.
+The user then ran `fn:check` and reported Deno lint `no-import-prefix`, initially on the new assignment tests and then across the Edge Functions tree. All inline `npm:` and `jsr:` imports in `supabase/functions` were converted to the existing `deno.json` aliases (`@supabase/supabase-js`, `zod`, `@std/assert`). On 2026-10-31 the exact `npm run fn:check` command passed locally under Deno v2; `deno lint supabase/functions` checked 180 files successfully, and `deno check supabase/functions/withdraw-access/index.ts` passed.
 
 ## JD extraction continuation (2026-10-20)
 

@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { SubmitProjectInputSchema, SubmitProjectOutputSchema } from "./submit-project.ts";
 
 Deno.test("submit-project accepts only confirmed submissions", () => {

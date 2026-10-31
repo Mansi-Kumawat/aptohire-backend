@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { RequestAccessInputSchema, RequestAccessOutputSchema } from "./request-access.ts";
 
 Deno.test("request-access accepts allowed scopes/durations and rejects unknown fields", () => {

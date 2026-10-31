@@ -60,3 +60,12 @@ The failed browser attempt already created an Auth user. Do not sign up again wi
 5. Confirm that the account has an Organization `profiles.role` and expected organization membership. If it does not, inspect the POST's safe error code in the function logs; do not recreate/delete the Auth user as a workaround.
 
 Then open Candidates and Pipeline. Their Edge Function requests should pass CORS too. A successful `match-job` response with `candidate_count: 0` means the CORS issue is fixed but no eligible synthetic candidate match exists for that job; it is a separate data/eligibility issue.
+
+
+## Repair signup role initialization and recover already-created users (2026-10-31)
+
+The Organization signup can create the Supabase Auth user and then fail with HTTP 503 while `complete-signup` initializes `profiles.role`. The profile role-protection trigger originally checked `current_user`; inside a `SECURITY DEFINER` RPC that is the function owner, not the caller's verified Supabase service-role JWT. Thus the trigger can block the trusted role-initializer RPC. A second signup attempt then correctly reports that the Auth identity already exists.
+
+Apply the new forward migrations `0103_repair_signup_role_initializer.sql` and `0105_fix_signup_role_trigger_guard.sql` to the dedicated hosted demo project before retrying. `0104_add_reviewed_pipeline_stage.sql` is also required for the Organization Pipeline's new internal Reviewed stage. These are forward-only migrations; do not delete the Auth user or profile, and do not seed a real production database. The updated Organization portal auto-retries `complete-signup` at sign-in for a verified user with a missing role, so the user should sign in with the password already chosen rather than attempting Create account again.
+
+After applying migrations, test with one fictional organization account in the dedicated demo project: create the account, verify email if confirmations are enabled, sign in, and confirm the organization portal opens. This hosted verification has not been performed by the assistant.

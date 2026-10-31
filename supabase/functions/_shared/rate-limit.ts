@@ -1,4 +1,4 @@
-import type { SupabaseClient } from "npm:@supabase/supabase-js@2.45.4";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { HttpError } from "./errors.ts";
 import { hmacHex } from "./hash.ts";
 

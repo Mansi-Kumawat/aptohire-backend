@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { extractJobSkills } from "./job-description.ts";
 
 Deno.test("JD extraction matches taxonomy entries without substring false positives", () => {

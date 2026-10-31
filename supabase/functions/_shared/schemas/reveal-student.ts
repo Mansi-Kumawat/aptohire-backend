@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 
 export const RevealStudentInputSchema = z.object({ request_id: z.string().uuid() }).strict();
 const LinkSchema = z.object({ label: z.string().max(80), url: z.string().url().max(2000) }).strict();

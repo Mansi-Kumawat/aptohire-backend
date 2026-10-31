@@ -1,4 +1,4 @@
-import { assertEquals, assertStringIncludes } from "jsr:@std/assert@1";
+import { assertEquals, assertStringIncludes } from "@std/assert";
 import { cleanProfileText, githubProposal, linkedinProposal } from "./profile-proposal.ts";
 
 Deno.test("profile text normalization removes direct contacts, links, markup and controls", () => {

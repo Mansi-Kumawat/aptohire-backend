@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { AuditSubmissionInputSchema, AuditSubmissionOutputSchema } from "./audit-submission.ts";
 
 Deno.test("internal audit submission request is strict and requires a UUID", () => {

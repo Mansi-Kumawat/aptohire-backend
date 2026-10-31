@@ -1,4 +1,4 @@
-import { assertEquals, assert } from "jsr:@std/assert@1";
+import { assertEquals, assert } from "@std/assert";
 import { buildPublicCredentialResponse } from "./public-credential.ts";
 
 const source = {

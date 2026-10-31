@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { createDataExportSignedUrl, DATA_EXPORT_SIGNED_URL_TTL_SECONDS, removeDataExportObject } from "./export-storage.ts";
 
 const owner = "11111111-1111-4111-8111-111111111111";

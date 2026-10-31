@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { isFictionalTestAccountEmail, isLocalSyntheticDirectOptedIn, isLocalSyntheticProfileDirectAllowed } from "./synthetic-direct.ts";
 
 Deno.test("direct provider opt-in fails closed unless local and explicitly enabled", () => {

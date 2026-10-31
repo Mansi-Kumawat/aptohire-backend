@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { evidenceItemFromRef } from "./evidence-item.ts";
 
 Deno.test("evidence refs map to the frozen frontend locator shape", () => {

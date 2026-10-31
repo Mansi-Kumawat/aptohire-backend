@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 
 // TODO(decision): confirm these operational limits with the product/security owner.
 const BorderlineSchema = z.tuple([z.number().min(0).max(100), z.number().min(0).max(100)])

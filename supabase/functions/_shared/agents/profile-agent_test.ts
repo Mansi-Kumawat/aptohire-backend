@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { extractProfileProposal } from "./profile-agent.ts";
 
 Deno.test("profile agent accepts only exact, sanitized source excerpts as pending proposal fields", async () => {

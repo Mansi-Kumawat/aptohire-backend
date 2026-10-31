@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import type { ProjectBrief } from "../schemas/assign-project.ts";
 import { personalizeTemplateBrief } from "./project-assignment-llm.ts";
 

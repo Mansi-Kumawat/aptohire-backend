@@ -1,4 +1,4 @@
-import { assertEquals, assertFalse } from "jsr:@std/assert@1";
+import { assertEquals, assertFalse } from "@std/assert";
 import { MatchJobInputSchema, MatchJobOutputSchema, RequiredJobSkillsSchema } from "./match-job.ts";
 
 Deno.test("match-job input and output are strict and bounded", () => {

@@ -1,4 +1,4 @@
-import { z } from "npm:zod@3.23.8";
+import { z } from "zod";
 import { StudentIdNumberSchema } from "./student-id.ts";
 
 const ChoiceSchema = z.discriminatedUnion("kind", [

@@ -1,4 +1,4 @@
-import { assertEquals, assertNotEquals } from "jsr:@std/assert@1";
+import { assertEquals, assertNotEquals } from "@std/assert";
 import { hmacHex, normalizeStudentId } from "./hash.ts";
 
 Deno.test("normalizes student ID consistently", () => {

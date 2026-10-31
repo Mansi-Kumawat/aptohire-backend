@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { RegisterStudentInputSchema, RegisterStudentOutputSchema } from "./register-student.ts";
 
 Deno.test("register-student validates each choice variant strictly", () => {

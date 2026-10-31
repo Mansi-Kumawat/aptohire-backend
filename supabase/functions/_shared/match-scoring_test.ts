@@ -1,4 +1,4 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "@std/assert";
 import { scoreMatchRequirements, type MatchRequirement } from "./match-scoring.ts";
 
 const requirements: MatchRequirement[] = [

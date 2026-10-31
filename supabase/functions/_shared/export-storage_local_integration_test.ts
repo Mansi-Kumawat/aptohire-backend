@@ -1,5 +1,5 @@
-import { createClient } from "npm:@supabase/supabase-js@2.45.4";
-import { assertEquals } from "jsr:@std/assert@1";
+import { createClient } from "@supabase/supabase-js";
+import { assertEquals } from "@std/assert";
 import { createDataExportSignedUrl, removeDataExportObject } from "./export-storage.ts";
 
 function localStorageOrigin(value: string): string | null {
